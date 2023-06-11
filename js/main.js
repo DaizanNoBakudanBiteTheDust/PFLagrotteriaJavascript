@@ -9,27 +9,36 @@ let productoAutos = JSON.stringify(localStorage.getItem('autos'));
 //Llamo botones del menu
 
 let botonTodos = document.getElementById('todos'); 
-let botonAutos = document.getElementById('autos');
+let botonAutos = document.getElementById('traerAutos');
 let botonRuedas = document.getElementById('ruedas');
 
+let tituloPagina = document.getElementById('tituloSeccion');
 
 function categoriaAutos(){
 
+// cambia el titulo de la pagina
 
+    tituloPagina.innerHTML = "Autos Rocket League";
 
+    let productos = document.getElementById('productos')   
+
+    let productosCodigo = "";
 
 //Cargo productos
 
 autosRocket.forEach((autito) => {
-    let div = document.createElement("div");
-    div.innerHTML = `
+    
+    productosCodigo  += `
+        <div class="col-lg-4">
         <h2>Nombre: ${autito.auto}</h2>
         <h2>Precio: <img src="./img/credits.webp"> ${autito.precio}</h2>
         <img src="${autito.imagen}">
-    `;
-
-    contenedorProductos.append(div);
+        </div>
+        `;
 });
 
-let titulo = document.getElementById('tituloSeccion');
+    productos.innerHTML = productosCodigo;
+
 }
+
+botonAutos.addEventListener("click", categoriaAutos);
