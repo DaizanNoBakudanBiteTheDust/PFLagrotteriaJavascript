@@ -42,3 +42,9 @@ autosRocket.forEach((autito) => {
 }
 
 botonAutos.addEventListener("click", categoriaAutos);
+
+const { products } = require('../node_modules/@rocketleagueapi/items');
+
+// Where 32 is the product ID
+const alphaBoost = products[32];
+console.log(alphaBoost.paintable) // false

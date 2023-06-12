@@ -12,7 +12,7 @@ const autosRocket = [{
     },
     {
         id: 3,
-        auto: "Silvia",
+        auto: "Nissan Silvia",
         precio: 600,
         imagen: "./img/silvia.webp"
     },

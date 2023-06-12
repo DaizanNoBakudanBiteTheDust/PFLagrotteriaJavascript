@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@rocketleagueapi/items": "^3.2.9"
+  }
+}
