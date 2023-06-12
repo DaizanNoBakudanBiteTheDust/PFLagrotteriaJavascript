@@ -5,46 +5,74 @@ let contenedorProductos = document.getElementById('productos');
 
 let productoAutos = JSON.stringify(localStorage.getItem('autos'));
 
+let productos = document.getElementById('productos');
+
+//Traigo el Json local
+
+fetch("../json/productos.json")
+    .then((response) => response.json())
+    .then((data) => {
+        data.forEach((item) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+        <h2>${item.id}</h2>
+         <p>${item.nombre}</p>
+         <b>${item.nombreCategoria}</b>
+       `;
+
+            productos.append(li);
+        });
+    });
+
 
 //Llamo botones del menu
 
-let botonTodos = document.getElementById('todos'); 
+let botonTodos = document.getElementById('todos');
 let botonAutos = document.getElementById('traerAutos');
 let botonRuedas = document.getElementById('ruedas');
 
 let tituloPagina = document.getElementById('tituloSeccion');
 
-function categoriaAutos(){
+function categoriaAutos() {
 
-// cambia el titulo de la pagina
+    // cambia el titulo de la pagina
 
     tituloPagina.innerHTML = "Autos Rocket League";
 
-    let productos = document.getElementById('productos')   
+    let productos = document.getElementById('productos');
 
     let productosCodigo = "";
 
-//Cargo productos
+    //Cargo productos
 
-autosRocket.forEach((autito) => {
-    
-    productosCodigo  += `
-        <div class="col-lg-4">
-        <h2>Nombre: ${autito.auto}</h2>
-        <h2>Precio: <img src="./img/credits.webp"> ${autito.precio}</h2>
-        <img src="${autito.imagen}">
-        </div>
-        `;
-});
 
-    productos.innerHTML = productosCodigo;
+
+    fetch("../json/productos.json")
+        .then((response) => response.json())
+        .then((data) => {
+
+
+            data.forEach((item) => {
+                if (item.categoria === 0) {
+
+                    productosCodigo += `
+                    <div class="col-lg-4">
+                    <p>${item.nombre}</p>
+         <b>${item.nombreCategoria}</b>
+                    </div>
+                    `;
+
+                }
+                productos.innerHTML = productosCodigo;
+            })
+        });
+
+
+
+
+
+
 
 }
 
 botonAutos.addEventListener("click", categoriaAutos);
-
-const { products } = require('../node_modules/@rocketleagueapi/items');
-
-// Where 32 is the product ID
-const alphaBoost = products[32];
-console.log(alphaBoost.paintable) // false
