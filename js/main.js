@@ -35,7 +35,7 @@
 
     // defino la url del fetch fuera para que no cambie
 
-    let url = "./json/productos.json";
+    let url = "../json/productos.json";
 
     // Funcion que trae solo los autos del json
 
