@@ -1,97 +1,96 @@
-// Proyecto Final tiendita de Rocket league de Gabriel Lagrotteria para la clase de Javascript CoderHouse
+    // Proyecto Final tiendita de Rocket league de Gabriel Lagrotteria para la clase de Javascript CoderHouse
 
-// Donde se veran los productos
-let contenedorProductos = document.getElementById('productos');
+    // Donde se veran los productos
+    let contenedorProductos = document.getElementById('productos');
 
-// Llamo al row en el div de productos
+    // Llamo al row en el div de productos
 
-let productos = document.getElementById('productos').querySelector('.row');
+    let productos = document.getElementById('productos').querySelector('.row');
 
-productosGeneral = "";
+    productosGeneral = "";
 
-//Llamo botones del menu
+    //Llamo botones del menu
 
-let botonTodos = document.getElementById('todos');
-let botonAutos = document.getElementById('traerAutos');
-let botonRuedas = document.getElementById('ruedas');
+    let botonTodos = document.getElementById('todos');
+    let botonAutos = document.getElementById('traerAutos');
+    let botonRuedas = document.getElementById('ruedas');
 
-// Llamo al H1 en el index aka titulo de Pagina
+    // Llamo al H1 en el index aka titulo de Pagina
 
-let tituloPagina = document.getElementById('tituloSeccion');
+    let tituloPagina = document.getElementById('tituloSeccion');
 
+    //Defino imagen del producto
 
+    let imagenProducto = "";
 
     // Defino variables para Paginacion
 
     let paginaInicial = 1;
     let productosPagina = 20;
 
-//Traigo el Json local
 
-fetch("../json/productos.json")
-        .then((response) => response.json())
-        .then((data) => {
+    // Funcion que trae solo los autos del json
 
-        // le digo que traiga 20 por pagina
-           const paginaCategoria = (paginaInicial - 1) * productosPagina;
-           const paginaFin = paginaCategoria + productosPagina;
+    function categoriaAutos(categoria) {
+    ;
+        // cambia el titulo de la pagina
 
-           // Filtrar los productos por categoría y paginar
-           const productosFiltrados = data.filter(item).slice(paginaCategoria, paginaFin);
+        let productosCodigo = "";
 
-            productosFiltrados.forEach((item) => {            
+        //Cargo productos con Json
 
-                    tituloPagina.innerHTML = "inicio";
+        fetch("../json/productos.json")
+            .then((response) => response.json())
+            .then((data) => {
 
-                    productosCodigo += `
-                    <div class="col-lg-4">
-                    <p>${item.nombre}</p>
-         <b>${item.nombreCategoria}</b>
-                    </div>
-                    `;
+                const paginaCategoria = (paginaInicial - 1) * productosPagina;
+                const paginaFin = paginaCategoria + productosPagina;
+                const productosPorPagina = data.slice(paginaInicial, paginaFin);
 
-                productos.innerHTML = productosCodigo;
-            })
-        });
+                // Filtrar los productos por categoría y paginar
+                let productosFiltrados = data.filter((item) => item.nombreCategoria === categoria).slice(paginaCategoria, paginaFin);
+
+                // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
+
+                productosFiltrados.forEach((item) => {
+                    switch (true) {
+                        case item.nombre.includes("Octane"):
+                            imagenProducto = "./img/octane.webp";
+                            break;
+                        case item.nombre.includes("Silvia"):
+                            imagenProducto = "./img/silvia.webp";
+                            break;
+                        case item.nombre.includes("Fennec"):
+                            imagenProducto = "./img/fennec.webp";
+                            break;
+                        default:
+                            imagenProducto = " ";
+                            break;
+                    }
 
 
-// Funcion que trae solo los autos del json
-
-function categoriaAutos() {
-
-    // cambia el titulo de la pagina
-
-    let productosCodigo = "";
-
-    //Cargo productos con Json
-
-    fetch("../json/productos.json")
-        .then((response) => response.json())
-        .then((data) => {
-
-           const paginaCategoria = (paginaInicial - 1) * productosPagina;
-           const paginaFin = paginaCategoria + productosPagina;
-
-           // Filtrar los productos por categoría y paginar
-           const productosFiltrados = data.filter((item) => item.categoria === 0).slice(paginaCategoria, paginaFin);
-
-            productosFiltrados.forEach((item) => {            
-
-                    tituloPagina.innerHTML = "Autos Rocket League";
+                    tituloPagina.innerHTML = categoria;
 
                     productosCodigo += `
-                    <div class="col-lg-4">
-                    <p>${item.nombre}</p>
-                    <b>${item.nombreCategoria}</b>
-                    </div>
-                    `;
+                        <div class="col-lg-4">
+                        <img src="${imagenProducto}" alt=">${item.nombre}">
+                        <h2>${item.nombre}</h2>
+                        <p>${item.nombreCategoria}</p>
+                        </div>
+                        `;
 
-                productos.innerHTML = productosCodigo;
-            })
-        });
+                    productos.innerHTML = productosCodigo;
+                });
 
-}
+            });
 
-// le asigno la funcion al boton del menu al hacer click
 
-botonAutos.addEventListener("click", categoriaAutos);
+
+    }
+
+
+    // le asigno la funcion al boton del menu al hacer click
+
+    botonAutos.addEventListener("click", function () {
+        categoriaAutos("Carrocería")
+    });
