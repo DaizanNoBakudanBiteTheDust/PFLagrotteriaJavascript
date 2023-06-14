@@ -18,3 +18,7 @@ button {
     height: 30px;
     background-color: blue;
   }
+
+  #productos img{
+      width: 200px;
+  }

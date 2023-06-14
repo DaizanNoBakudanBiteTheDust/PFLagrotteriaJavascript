@@ -14,6 +14,18 @@
     let botonTodos = document.getElementById('todos');
     let botonAutos = document.getElementById('traerAutos');
     let botonRuedas = document.getElementById('ruedas');
+    let botonAntena = document.getElementById('antena');
+    let botonAcelerador = document.getElementById('acelerador');
+    let botonAdorno = document.getElementById('adorno');
+    let botonCalcomanias = document.getElementById('calcomanias');
+    let botonPlanos = document.getElementById('planos');
+    let botonSonido = document.getElementById('sonido');
+    let botonPintura = document.getElementById('pintura');
+    let botonLetrero = document.getElementById('letrero');
+    let botonMarco = document.getElementById('marco');
+    let botonExplosion = document.getElementById('explosion');
+    let botonRastro = document.getElementById('rastro');
+    
 
     // Llamo al H1 en el index aka titulo de Pagina
 
@@ -124,7 +136,7 @@
                         imagenProducto = "./img/fennec.webp";
                         break;
                     default:
-                        imagenProducto = " ";
+                        imagenProducto = "./img/default.jpg";
                         break;
                 }
 
@@ -185,4 +197,37 @@
     });
     botonRuedas.addEventListener("click", function () {
         categoriaAutos("Ruedas")
+    });
+    botonAntena.addEventListener("click", function () {
+        categoriaAutos("Antena")
+    });
+    botonAcelerador.addEventListener("click", function () {
+        categoriaAutos("Acelerador")
+    });
+    botonAdorno.addEventListener("click", function () {
+        categoriaAutos("Adorno")
+    });
+    botonCalcomanias.addEventListener("click", function () {
+        categoriaAutos("Calcomanías")
+    });
+    botonPlanos.addEventListener("click", function () {
+        categoriaAutos("Planos")
+    });
+    botonSonido.addEventListener("click", function () {
+        categoriaAutos("Sonido de motor")
+    });
+    botonPintura.addEventListener("click", function () {
+        categoriaAutos("Pintura")
+    });
+    botonLetrero.addEventListener("click", function () {
+        categoriaAutos("Letrero del jugador")
+    });
+    botonMarco.addEventListener("click", function () {
+        categoriaAutos("Marco de avatar")
+    });
+    botonExplosion.addEventListener("click", function () {
+        categoriaAutos("Explosión de gol")
+    });
+    botonRastro.addEventListener("click", function () {
+        categoriaAutos("Rastro")
     });
