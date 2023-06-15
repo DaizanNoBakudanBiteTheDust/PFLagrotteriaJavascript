@@ -25,7 +25,7 @@
     let botonMarco = document.getElementById('marco');
     let botonExplosion = document.getElementById('explosion');
     let botonRastro = document.getElementById('rastro');
-    
+
 
     // Llamo al H1 en el index aka titulo de Pagina
 
@@ -51,100 +51,53 @@
 
     // Funcion que trae solo los autos del json
 
-    function categoriaAutos(categoria) {
+    function categoriaAutos(categoria = null) {
         let btnSiguiente;
         let btnAtras;
 
-        //Cargo productos con Json y asign await
+        //Cargo productos con Promesa que trae el json y en base a eso trae el codigo
 
-        const traerData = async (pagina) => {
+        const traerData = (pagina) => {
             let paginaActual = pagina;
             productosCodigo = "";
-            const response = await fetch(url);
-            const data = await response.json();
 
-            // defino botones de paginacion
+            return new Promise((resolve, reject) => {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
 
-            btnSiguiente = document.createElement('button');
-            btnSiguiente.classList.add('btn');
-            btnSiguiente.innerText = '⏩';
+                        // la magia de pasar de pagina
 
-            btnAtras = document.createElement('button');
-            btnAtras.classList.add('btn');
-            btnAtras.innerText = '⏮';
+                        const paginaCategoria = (pagina - 1) * productosPagina;
+                        const paginaFin = paginaCategoria + productosPagina;
 
-            // les doy event listener a los botones
+                        // Filtrar los productos por categoría y paginar
+                        let productosFiltrados;
+                        categoria ? productosFiltrados = data.filter((item) => item.nombreCategoria === categoria).slice(paginaCategoria, paginaFin) : productosFiltrados = data.slice(paginaCategoria, paginaFin);
 
-            btnSiguiente.addEventListener('click', () => {
-                traerData(paginaActual + 1);
-            });
+                        // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
 
-            btnAtras.addEventListener('click', () => {
-                if (paginaActual > 1) {
-                    traerData(paginaActual - 1);
-                }
-            });
+                        productosFiltrados.forEach((item) => {
+                            switch (true) {
+                                case item.nombre.includes("Octane"):
+                                    imagenProducto = "./img/octane.webp";
+                                    break;
+                                case item.nombre.includes("Silvia"):
+                                    imagenProducto = "./img/silvia.webp";
+                                    break;
+                                case item.nombre.includes("Fennec"):
+                                    imagenProducto = "./img/fennec.webp";
+                                    break;
+                                default:
+                                    imagenProducto = "./img/default.jpg";
+                                    break;
+                            }
 
-            // le digo que el boton siguiente pase hacia adelante o atras dependiendo el boton, sino me de error
+                            // le digo que cambie el titulo de la pagina basado en la categoria
 
-            try {
-                btnSiguiente.dataset.url = pagina + 1;
-                btnAtras.dataset.url = pagina - 1;
-            } catch (error) {
-                console.log(error);
-            }
+                            tituloPagina.innerHTML = categoria;
 
-            // le digo que agregue los botones de adelante y atras en caso de que la pagina sea o no mayor a 1
-
-            botones.innerHTML = '';
-            if (paginaActual > 1) {
-                botones.appendChild(btnAtras);
-            }
-            if (Array.isArray(data) && data.length > 0) {
-                botones.appendChild(btnSiguiente);
-            }
-
-            // Verifica si btnAtras existe antes de agregar el evento
-            if (btnAtras) {
-                btnAtras.addEventListener('click', () => {
-                    if (paginaActual > 1) {
-                        paginaActual--;
-                        traerData(paginaActual);
-                    }
-                });
-            }
-
-            // la magia de pasar de pagina
-
-            const paginaCategoria = (pagina - 1) * productosPagina;
-            const paginaFin = paginaCategoria + productosPagina;
-
-            // Filtrar los productos por categoría y paginar
-            let productosFiltrados = data.filter((item) => item.nombreCategoria === categoria).slice(paginaCategoria, paginaFin);
-
-            // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
-
-            productosFiltrados.forEach((item) => {
-                switch (true) {
-                    case item.nombre.includes("Octane"):
-                        imagenProducto = "./img/octane.webp";
-                        break;
-                    case item.nombre.includes("Silvia"):
-                        imagenProducto = "./img/silvia.webp";
-                        break;
-                    case item.nombre.includes("Fennec"):
-                        imagenProducto = "./img/fennec.webp";
-                        break;
-                    default:
-                        imagenProducto = "./img/default.jpg";
-                        break;
-                }
-
-                // le digo que cambie el titulo de la pagina basado en la categoria
-
-                tituloPagina.innerHTML = categoria;
-
-                productosCodigo += `
+                            productosCodigo += `
                         <div class="col-lg-4">
                         <img src="${imagenProducto}" alt="${item.nombre}">
                         <h2>${item.nombre}</h2>
@@ -153,33 +106,94 @@
                         `;
 
 
-            });
+                        });
 
-            // le digo que agregue el html anterior a la variable definida como productos
+                        // le digo que agregue el html anterior a la variable definida como productos
 
-            productos.innerHTML = productosCodigo;
+                        productos.innerHTML = productosCodigo;
 
-            // aqui le digo que cree los botones solo si la pagina es mayor que 1
+                        // defino botones de paginacion
 
-            botones.innerHTML = '';
-            if (paginaActual > 1) {
-                btnAtras = document.createElement('button');
-                btnAtras.classList.add('btn');
-                btnAtras.innerText = '⏮';
-                btnAtras.addEventListener('click', () => {
-                    traerData(paginaActual - 1);
-                });
-                botones.appendChild(btnAtras);
-            }
-            if (paginaFin < data.length) {
-                btnSiguiente = document.createElement('button');
-                btnSiguiente.classList.add('btn');
-                btnSiguiente.innerText = '⏩';
-                btnSiguiente.addEventListener('click', () => {
-                    traerData(paginaActual + 1);
-                });
-                botones.appendChild(btnSiguiente);
-            }
+                        btnSiguiente = document.createElement('button');
+                        btnSiguiente.classList.add('btn');
+                        btnSiguiente.innerText = '⏩';
+
+                        btnAtras = document.createElement('button');
+                        btnAtras.classList.add('btn');
+                        btnAtras.innerText = '⏮';
+
+                        // les doy event listener a los botones
+
+                        btnSiguiente.addEventListener('click', () => {
+                            traerData(paginaActual + 1);
+                        });
+
+                        btnAtras.addEventListener('click', () => {
+                            if (paginaActual > 1) {
+                                traerData(paginaActual - 1);
+                            }
+                        });
+
+                        // le digo que el boton siguiente pase hacia adelante o atras dependiendo el boton, sino me de error
+
+                        try {
+                            btnSiguiente.dataset.url = pagina + 1;
+                            btnAtras.dataset.url = pagina - 1;
+                        } catch (error) {
+                            console.log(error);
+                        }
+
+                        // le digo que agregue los botones de adelante y atras en caso de que la pagina sea o no mayor a 1
+
+                        botones.innerHTML = '';
+                        if (paginaActual > 1) {
+                            botones.appendChild(btnAtras);
+                        }
+                        if (Array.isArray(data) && data.length > 0) {
+                            botones.appendChild(btnSiguiente);
+                        }
+
+                        // Verifica si btnAtras existe antes de agregar el evento
+                        if (btnAtras) {
+                            btnAtras.addEventListener('click', () => {
+                                if (paginaActual > 1) {
+                                    paginaActual--;
+                                    traerData(paginaActual);
+                                }
+                            });
+                        }
+
+
+
+                        // aqui le digo que cree los botones solo si la pagina es mayor que 1
+
+                        botones.innerHTML = '';
+                        if (paginaActual > 1) {
+                            btnAtras = document.createElement('button');
+                            btnAtras.classList.add('btn');
+                            btnAtras.innerText = '⏮';
+                            btnAtras.addEventListener('click', () => {
+                                traerData(paginaActual - 1);
+                            });
+                            botones.appendChild(btnAtras);
+                        }
+                        if (paginaFin < data.length) {
+                            btnSiguiente = document.createElement('button');
+                            btnSiguiente.classList.add('btn');
+                            btnSiguiente.innerText = '⏩';
+                            btnSiguiente.addEventListener('click', () => {
+                                traerData(paginaActual + 1);
+                            });
+                            botones.appendChild(btnSiguiente);
+                        }
+
+
+                        resolve(data);
+                    }).catch(error => {
+                        console.log(error);
+                        reject(error);
+                    })
+            })
 
         };
 
@@ -189,45 +203,47 @@
 
     }
 
+    categoriaAutos()
+
 
     // le asigno la funcion al boton del menu al hacer click
 
-    botonAutos.addEventListener("click", function () {
+    botonAutos.addEventListener("click", async function () {
         categoriaAutos("Carrocería")
     });
-    botonRuedas.addEventListener("click", function () {
+    botonRuedas.addEventListener("click", async function () {
         categoriaAutos("Ruedas")
     });
-    botonAntena.addEventListener("click", function () {
+    botonAntena.addEventListener("click", async function () {
         categoriaAutos("Antena")
     });
-    botonAcelerador.addEventListener("click", function () {
+    botonAcelerador.addEventListener("click", async function () {
         categoriaAutos("Acelerador")
     });
-    botonAdorno.addEventListener("click", function () {
+    botonAdorno.addEventListener("click", async function () {
         categoriaAutos("Adorno")
     });
-    botonCalcomanias.addEventListener("click", function () {
+    botonCalcomanias.addEventListener("click", async function () {
         categoriaAutos("Calcomanías")
     });
-    botonPlanos.addEventListener("click", function () {
+    botonPlanos.addEventListener("click", async function () {
         categoriaAutos("Planos")
     });
-    botonSonido.addEventListener("click", function () {
+    botonSonido.addEventListener("click", async function () {
         categoriaAutos("Sonido de motor")
     });
-    botonPintura.addEventListener("click", function () {
+    botonPintura.addEventListener("click", async function () {
         categoriaAutos("Pintura")
     });
-    botonLetrero.addEventListener("click", function () {
+    botonLetrero.addEventListener("click", async function () {
         categoriaAutos("Letrero del jugador")
     });
-    botonMarco.addEventListener("click", function () {
+    botonMarco.addEventListener("click", async function () {
         categoriaAutos("Marco de avatar")
     });
-    botonExplosion.addEventListener("click", function () {
+    botonExplosion.addEventListener("click", async function () {
         categoriaAutos("Explosión de gol")
     });
-    botonRastro.addEventListener("click", function () {
+    botonRastro.addEventListener("click", async function () {
         categoriaAutos("Rastro")
     });
