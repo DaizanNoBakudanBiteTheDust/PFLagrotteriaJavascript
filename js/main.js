@@ -311,3 +311,34 @@
         categoriaAutos("Rastro")
     });
 
+
+    function mostrarCarrito() {
+        let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; // Obtener el carrito almacenado en sessionStorage
+        let modalBody = document.querySelector('.modal-body');
+        modalBody.innerHTML = ''; // Limpiar el contenido anterior del modal
+    
+        // Recorrer los productos del carrito y agregarlos al modal
+        carrito.forEach((item) => {
+            let productoHTML = `
+            <div class="row">
+            <div class="col-lg-2">
+                <img src="../img/credits.webp">
+                </div>
+                <div class="col-lg-10">
+                    <h3>${item.nombre}</h3>
+                    <p>${item.nombreCategoria}</p>
+                    </div>
+                </div>
+                </div>
+            `;
+            modalBody.innerHTML += productoHTML;
+        });
+    }
+    
+    // ...
+    
+    // Evento al hacer click en el botón para mostrar el carrito
+    document.getElementById('carrito').addEventListener('click', () => {
+        mostrarCarrito();
+        $('#modalCarrito').modal('show'); // Mostrar el modal
+    });
