@@ -78,28 +78,71 @@
                         // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
 
                         productosFiltrados.forEach((item) => {
+                            item.rareza;
+                            let imagen = "";
+
                             switch (true) {
                                 case item.nombre.includes("Octane"):
-                                    imagenProducto = "./img/octane.webp";
+                                    imagen = "octane";
                                     break;
                                 case item.nombre.includes("Silvia"):
-                                    imagenProducto = "./img/silvia.webp";
+                                    imagen = "silvia";
                                     break;
                                 case item.nombre.includes("Fennec"):
-                                    imagenProducto = "./img/fennec.webp";
+                                    imagen = "fennec";
                                     break;
                                 default:
-                                    imagenProducto = "./img/default.jpg";
+                                    imagen = "default";
                                     break;
                             }
+
+                            let caja = "";
+
+                            switch (item.rareza) {
+                                case  1:
+                                    caja = "pocoComun";
+                                    break;
+                                case 2:
+                                    caja = "raro";
+                                    break;
+                                case  3:
+                                    caja = "muyRaro";
+                                    break;
+                                case  4:
+                                    caja = "importado";
+                                    break;
+                                case  5:
+                                    caja = "exotico";
+                                    break;
+                                case  6:
+                                    caja = "mercadoNegro";
+                                    break;
+                                case 7:
+                                    caja = "premium";
+                                    break;
+                                case  8:
+                                    caja = "limitado";
+                                    break;
+                                case  9:
+                                    caja = "legado";
+                                    break;
+                                default:
+                                    caja = "comun";
+                                    break;
+
+                            }
+
 
                             // le digo que cambie el titulo de la pagina basado en la categoria
 
                             tituloPagina.innerHTML = categoria;
-
+                            // pequeña mala praxis
                             productosCodigo += `
-                        <div class="col-lg-4">
-                        <img src="${imagenProducto}" alt="${item.nombre}">
+                        <div class="col-lg-4">  
+                        <div class="img ${imagen}"> 
+                        <div class="${caja}">
+                        </div>
+                        </div>
                         <h2>${item.nombre}</h2>
                         <p>${item.nombreCategoria}</p>
                         </div>

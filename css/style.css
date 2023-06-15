@@ -22,3 +22,73 @@ button {
   #productos img{
       width: 200px;
   }
+
+  .default{
+    background: url(../img/default.jpg) no-repeat;
+  }
+
+  .octane{
+    background: url(../img/octane.webp) no-repeat;
+  }
+  .fennec{
+    background: url(../img/fennec.webp) no-repeat;
+  }
+  .silvia{
+    background: url(../img/silvia.webp) no-repeat;
+  }
+
+  .img{
+    background-size: cover;
+    width: 200px;
+    height: 200px;
+  }
+
+
+  .comun{
+    background: linear-gradient(rgb(6 59 239 / 50%), rgb(29 17 219 / 37%));
+    padding: 100px 0px;
+  }
+
+  .pocoComun{
+    background: linear-gradient(rgba(82, 206, 236, 0.795), rgba(104, 207, 211, 0.5));
+    padding: 100px 0px;
+  }
+
+  .premium{
+    background: linear-gradient(rgba(248, 69, 15, 0.75), rgba(223, 147, 48, 0.5));
+    padding: 100px 0px;
+  }
+
+  .limitado{
+    background: linear-gradient(rgba(167, 123, 41, 0.75), rgba(0, 0, 0, 0.5));
+    padding: 100px 0px;
+  }
+
+  .raro{
+    background: linear-gradient(rgba(0, 119, 255, 0.75), rgba(88, 147, 255, 0.5));
+    padding: 100px 0px;
+  }
+
+  .muyRaro{
+    background: linear-gradient(rgba(133, 4, 255, 0.75), rgba(157, 82, 243, 0.5));
+    padding: 100px 0px;
+  }
+
+  .importado{
+    background: linear-gradient(rgba(250, 0, 0, 0.75) rgba(241, 67, 67, 0.5));
+    padding: 100px 0px;
+  }
+
+  .exotico{
+    background: linear-gradient(rgba(236, 240, 28, 0.75), rgba(233, 255, 34, 0.5));
+    padding: 100px 0px;
+  }
+  .mercadoNegro{
+    background: linear-gradient(rgba(255, 6, 243, 0.75), rgba(228, 93, 228, 0.5));
+    padding: 100px 0px;
+  }
+
+  .legado{
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5));
+    padding: 100px 0px;
+  }
