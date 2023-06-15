@@ -75,11 +75,12 @@
                         let productosFiltrados;
                         categoria ? productosFiltrados = data.filter((item) => item.nombreCategoria === categoria).slice(paginaCategoria, paginaFin) : productosFiltrados = data.slice(paginaCategoria, paginaFin);
 
-                        // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
 
                         productosFiltrados.forEach((item) => {
                             item.rareza;
                             let imagen = "";
+
+                        // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
 
                             switch (true) {
                                 case item.nombre.includes("Octane"):
@@ -96,6 +97,7 @@
                                     break;
                             }
 
+                            // le asigno color en base a rareza del objeto
                             let caja = "";
 
                             switch (item.rareza) {
