@@ -146,38 +146,50 @@
                             tituloPagina.innerHTML = categoria;
                             // pequeña mala praxis
                             productosCodigo += `
-                        <div class="col-lg-4">  
+                           
+                        <div class="col-lg-3">  
+                        <div class="card">
                         <div class="img ${imagen}"> 
                         <div class="${caja}">
                         </div>
                         </div>
-                        <h2>${item.nombre}</h2>
-                        <p>${item.nombreCategoria}</p>
-                        <button type="button" id="boton${item.id}">Agregar al carrito</button>
+                            <div class="card-body">
+                            <h5 class="card-title">${item.nombre}</h5>
+                            <p>${item.nombreCategoria}</p>
+                            <button type="button" id="boton${item.id}">Agregar al carrito</button>
+                             </div>
+                        </div>
                         </div>
                         `;
-                    
-                    });
-                    
+
+                        });
+
 
                         // le digo que agregue el html anterior a la variable definida como productos
 
                         productos.innerHTML = productosCodigo;
 
-                        
+
                         // Tomo el id y lo guardo en el session storage aka carrito
 
                         productosFiltrados.forEach((item) => {
-                        const botonAgregar = (id) => {
-                            let productoSeleccionado = productosFiltrados.find((item) => item.id === id)
-                            let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; 
-                            carrito.push(productoSeleccionado); 
-                            sessionStorage.setItem('carrito', JSON.stringify(carrito)); // 
-                        }
-                        let boton = document.getElementById(`boton${item.id}`);
-                        boton.addEventListener('click', () => botonAgregar(item.id))
+                            const botonAgregar = (id) => {
+                                let productoSeleccionado = productosFiltrados.find((item) => item.id === id)
+                                let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
+                                carrito.push(productoSeleccionado);
+                                sessionStorage.setItem('carrito', JSON.stringify(carrito));
+                                Toastify({
 
-                    });
+                                    text: `${productoSeleccionado.nombre} ha sido agregado al carrito`,
+
+                                    duration: 3000
+
+                                }).showToast();
+                            }
+                            let boton = document.getElementById(`boton${item.id}`);
+                            boton.addEventListener('click', () => botonAgregar(item.id))
+
+                        });
 
 
 
@@ -185,11 +197,10 @@
 
                         btnSiguiente = document.createElement('button');
                         btnSiguiente.classList.add('btn');
-                        btnSiguiente.innerText = '⏩';
 
                         btnAtras = document.createElement('button');
                         btnAtras.classList.add('btn');
-                        btnAtras.innerText = '⏮';
+
 
                         // les doy event listener a los botones
 
@@ -238,7 +249,7 @@
                         if (paginaActual > 1) {
                             btnAtras = document.createElement('button');
                             btnAtras.classList.add('btn');
-                            btnAtras.innerText = '⏮';
+                            btnAtras.innerText = 'Volver';
                             btnAtras.addEventListener('click', () => {
                                 traerData(paginaActual - 1);
                             });
@@ -247,7 +258,7 @@
                         if (paginaFin < data.length) {
                             btnSiguiente = document.createElement('button');
                             btnSiguiente.classList.add('btn');
-                            btnSiguiente.innerText = '⏩';
+                            btnSiguiente.innerText = 'Siguiente';
                             btnSiguiente.addEventListener('click', () => {
                                 traerData(paginaActual + 1);
                             });
@@ -316,11 +327,11 @@
 
     // muestro el carrito con lo obtenido
     function mostrarCarrito() {
-        let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; 
+        let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
         let modalBody = document.querySelector('.modal-body');
         // le digo al modal que quede vacio
-        modalBody.innerHTML = '';  
-    
+        modalBody.innerHTML = '';
+
         // llamo otra vez al for each y le digo que agregue los productos definidos arriba
         carrito.forEach((item) => {
             let productoHTML = `
@@ -338,9 +349,9 @@
             modalBody.innerHTML += productoHTML;
         });
     }
-    
+
     // Abro el modal como dice Bootstrap
     document.getElementById('carrito').addEventListener('click', () => {
         mostrarCarrito();
-        $('#modalCarrito').modal('show'); 
+        $('#modalCarrito').modal('show');
     });
