@@ -165,12 +165,14 @@
                         productos.innerHTML = productosCodigo;
 
                         
+                        // Tomo el id y lo guardo en el session storage aka carrito
+
                         productosFiltrados.forEach((item) => {
                         const botonAgregar = (id) => {
                             let productoSeleccionado = productosFiltrados.find((item) => item.id === id)
-                            let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; // Obtener el carrito existente o crear uno vacío
-                            carrito.push(productoSeleccionado); // Agregar el producto al carrito
-                            sessionStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar el carrito actualizado en sessionStorage
+                            let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; 
+                            carrito.push(productoSeleccionado); 
+                            sessionStorage.setItem('carrito', JSON.stringify(carrito)); // 
                         }
                         let boton = document.getElementById(`boton${item.id}`);
                         boton.addEventListener('click', () => botonAgregar(item.id))
@@ -312,12 +314,14 @@
     });
 
 
+    // muestro el carrito con lo obtenido
     function mostrarCarrito() {
-        let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; // Obtener el carrito almacenado en sessionStorage
+        let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; 
         let modalBody = document.querySelector('.modal-body');
-        modalBody.innerHTML = ''; // Limpiar el contenido anterior del modal
+        // le digo al modal que quede vacio
+        modalBody.innerHTML = '';  
     
-        // Recorrer los productos del carrito y agregarlos al modal
+        // llamo otra vez al for each y le digo que agregue los productos definidos arriba
         carrito.forEach((item) => {
             let productoHTML = `
             <div class="row">
@@ -335,10 +339,8 @@
         });
     }
     
-    // ...
-    
-    // Evento al hacer click en el botón para mostrar el carrito
+    // Abro el modal como dice Bootstrap
     document.getElementById('carrito').addEventListener('click', () => {
         mostrarCarrito();
-        $('#modalCarrito').modal('show'); // Mostrar el modal
+        $('#modalCarrito').modal('show'); 
     });
