@@ -11,7 +11,7 @@
 
     //Llamo botones del menu
 
-    let botonTodos = document.getElementById('todos');
+
     let botonAutos = document.getElementById('traerAutos');
     let botonRuedas = document.getElementById('ruedas');
     let botonAntena = document.getElementById('antena');
@@ -51,9 +51,13 @@
 
     // Funcion que trae solo los autos del json
 
+    let itemId = "";
+
+    //guardo productos en el session storage
+
+
     function categoriaAutos(categoria = null) {
-        let btnSiguiente;
-        let btnAtras;
+
 
         //Cargo productos con Promesa que trae el json y en base a eso trae el codigo
 
@@ -71,7 +75,7 @@
                         const paginaCategoria = (pagina - 1) * productosPagina;
                         const paginaFin = paginaCategoria + productosPagina;
 
-                        // Filtrar los productos por categoría y paginar
+                        // Filtrar los productos por categoría y paginar y si no hay  categoria llama a la principal
                         let productosFiltrados;
                         categoria ? productosFiltrados = data.filter((item) => item.nombreCategoria === categoria).slice(paginaCategoria, paginaFin) : productosFiltrados = data.slice(paginaCategoria, paginaFin);
 
@@ -80,7 +84,7 @@
                             item.rareza;
                             let imagen = "";
 
-                        // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
+                            // le digo que imagen usar dependiendo el producto ya que la base de datos no tenia imagenes
 
                             switch (true) {
                                 case item.nombre.includes("Octane"):
@@ -101,39 +105,41 @@
                             let caja = "";
 
                             switch (item.rareza) {
-                                case  1:
+                                case 1:
                                     caja = "pocoComun";
                                     break;
                                 case 2:
                                     caja = "raro";
                                     break;
-                                case  3:
+                                case 3:
                                     caja = "muyRaro";
                                     break;
-                                case  4:
+                                case 4:
                                     caja = "importado";
                                     break;
-                                case  5:
+                                case 5:
                                     caja = "exotico";
                                     break;
-                                case  6:
+                                case 6:
                                     caja = "mercadoNegro";
                                     break;
                                 case 7:
                                     caja = "premium";
                                     break;
-                                case  8:
+                                case 8:
                                     caja = "limitado";
                                     break;
-                                case  9:
+                                case 9:
                                     caja = "legado";
                                     break;
                                 default:
                                     caja = "comun";
                                     break;
 
-                            }
+                            };
 
+
+                            //contar productos en el session storage
 
                             // le digo que cambie el titulo de la pagina basado en la categoria
 
@@ -147,15 +153,31 @@
                         </div>
                         <h2>${item.nombre}</h2>
                         <p>${item.nombreCategoria}</p>
+                        <button type="button" id="boton${item.id}">Agregar al carrito</button>
                         </div>
                         `;
-
-
-                        });
+                    
+                    });
+                    
 
                         // le digo que agregue el html anterior a la variable definida como productos
 
                         productos.innerHTML = productosCodigo;
+
+                        
+                        productosFiltrados.forEach((item) => {
+                        const botonAgregar = (id) => {
+                            let productoSeleccionado = productosFiltrados.find((item) => item.id === id)
+                            let carrito = JSON.parse(sessionStorage.getItem('carrito')) || []; // Obtener el carrito existente o crear uno vacío
+                            carrito.push(productoSeleccionado); // Agregar el producto al carrito
+                            sessionStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar el carrito actualizado en sessionStorage
+                        }
+                        let boton = document.getElementById(`boton${item.id}`);
+                        boton.addEventListener('click', () => botonAgregar(item.id))
+
+                    });
+
+
 
                         // defino botones de paginacion
 
@@ -208,8 +230,6 @@
                             });
                         }
 
-
-
                         // aqui le digo que cree los botones solo si la pagina es mayor que 1
 
                         botones.innerHTML = '';
@@ -232,7 +252,6 @@
                             botones.appendChild(btnSiguiente);
                         }
 
-
                         resolve(data);
                     }).catch(error => {
                         console.log(error);
@@ -249,7 +268,6 @@
     }
 
     categoriaAutos()
-
 
     // le asigno la funcion al boton del menu al hacer click
 
@@ -292,3 +310,4 @@
     botonRastro.addEventListener("click", async function () {
         categoriaAutos("Rastro")
     });
+
