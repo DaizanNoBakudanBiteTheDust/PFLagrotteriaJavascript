@@ -324,10 +324,11 @@
         categoriaAutos("Rastro")
     });
 
+    let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
 
     // muestro el carrito con lo obtenido
     function mostrarCarrito() {
-        let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
+        
         let modalBody = document.querySelector('.modal-body');
         // le digo al modal que quede vacio
         modalBody.innerHTML = '';
@@ -359,6 +360,6 @@
     // Cuento el session storage
 
     let botonCarrito = document.getElementById('carrito');
-    let contadorCarrito = sessionStorage.length;
+    let contadorCarrito = carrito.length;
 
     botonCarrito.innerHTML = `Carrito (${contadorCarrito})`;
