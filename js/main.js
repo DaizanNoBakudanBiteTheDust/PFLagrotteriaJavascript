@@ -182,7 +182,7 @@
                                 Toastify({
 
                                     text: `${productoSeleccionado.nombre} ha sido agregado al carrito`,
-
+                                    gravity: "bottom",
                                     duration: 3000
 
                                 }).showToast();
