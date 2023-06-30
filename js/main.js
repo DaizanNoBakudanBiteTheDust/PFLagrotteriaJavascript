@@ -171,21 +171,36 @@
                         productos.innerHTML = productosCodigo;
 
 
+
+                        // Función para actualizar el contador del carrito en el botón
+                        function actualizarContadorCarrito() {
+                            let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
+                            let contadorCarrito = document.getElementById('carrito');
+                            contadorCarrito.textContent = `Carrito ${carrito.length}`;
+                        }
+
+                        // Llamar a la función al cargar la página para inicializar el contador
+                        actualizarContadorCarrito();
+
+                        // Actualizar el contador cada vez que se agrega un producto al carrito
+                        function agregarAlCarrito(id) {
+                            let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
+                            let productoSeleccionado = productosFiltrados.find((item) => item.id === id);
+                            carrito.push(productoSeleccionado);
+                            sessionStorage.setItem('carrito', JSON.stringify(carrito));
+                            Toastify({
+                                text: `${productoSeleccionado.nombre} ha sido agregado al carrito`,
+                                gravity: "bottom",
+                                duration: 3000
+                            }).showToast();
+                            actualizarContadorCarrito();
+                        }
+
                         // Tomo el id y lo guardo en el session storage aka carrito
 
                         productosFiltrados.forEach((item) => {
                             const botonAgregar = (id) => {
-                                let productoSeleccionado = productosFiltrados.find((item) => item.id === id)
-                                let carrito = JSON.parse(sessionStorage.getItem('carrito')) || [];
-                                carrito.push(productoSeleccionado);
-                                sessionStorage.setItem('carrito', JSON.stringify(carrito));
-                                Toastify({
-
-                                    text: `${productoSeleccionado.nombre} ha sido agregado al carrito`,
-                                    gravity: "bottom",
-                                    duration: 3000
-
-                                }).showToast();
+                                agregarAlCarrito(id)
                             }
                             let boton = document.getElementById(`boton${item.id}`);
                             boton.addEventListener('click', () => botonAgregar(item.id))
@@ -359,5 +374,3 @@
         mostrarCarrito();
         $('#modalCarrito').modal('show');
     });
-
-    
