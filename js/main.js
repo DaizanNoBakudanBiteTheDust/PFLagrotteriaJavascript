@@ -25,6 +25,7 @@
     let botonMarco = document.getElementById('marco');
     let botonExplosion = document.getElementById('explosion');
     let botonRastro = document.getElementById('rastro');
+    let botonTodos = document.getElementById('todos');
 
 
     // Llamo al H1 en el index aka titulo de Pagina
@@ -322,6 +323,9 @@
     });
     botonRastro.addEventListener("click", async function () {
         categoriaAutos("Rastro")
+    });
+    botonTodos.addEventListener("click", async function () {
+        categoriaAutos()
     });
 
 

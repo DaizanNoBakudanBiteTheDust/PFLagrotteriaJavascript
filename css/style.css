@@ -10,6 +10,15 @@ section#tienda{
   margin: 20px 0px;
 }
 
+h1{
+  color: #2b5988;
+  background-color: #fff;
+  padding: 5px 10px;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
 button {
     background-color: transparent;
     outline: none;
