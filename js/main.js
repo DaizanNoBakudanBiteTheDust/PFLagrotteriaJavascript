@@ -337,7 +337,7 @@
             let productoHTML = `
             <div class="row">
             <div class="col-lg-2">
-                <img src="../img/credits.webp">
+                <img src="./img/credits.webp">
                 </div>
                 <div class="col-lg-10">
                     <h3>${item.nombre}</h3>
