@@ -355,3 +355,10 @@
         mostrarCarrito();
         $('#modalCarrito').modal('show');
     });
+
+    // Cuento el session storage
+
+    let botonCarrito = document.getElementById('carrito');
+    let contadorCarrito = sessionStorage.length;
+
+    botonCarrito.innerHTML = `Carrito (${contadorCarrito})`;
