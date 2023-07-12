@@ -48,7 +48,7 @@
 
     // defino la url del fetch fuera para que no cambie
 
-    let url = "https://daizannobakudanbitethedust.github.io/PFLagrotteria/json/productos.json";
+    let url = "https://daizannobakudanbitethedust.github.io/PFLagrotteriaJavascript/json/productos.json";
 
     // Funcion que trae solo los autos del json
 
